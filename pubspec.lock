@@ -97,7 +97,7 @@ packages:
     source: hosted
     version: "4.6.5"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       sha256: "910f85bce16fb5c6f614e117efa303e85a1731bb0081edf3604a2ae6e9a3cc91"
@@ -152,6 +152,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.2"
+  scaffold_gradient_background:
+    dependency: "direct main"
+    description:
+      name: scaffold_gradient_background
+      sha256: "904ee5ef0ea69e980cc4c7645418a0cd5ef94732c409f5ac114f74f51b4dd0a7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3+1"
+  scroll_app_bar:
+    dependency: "direct main"
+    description:
+      name: scroll_app_bar
+      sha256: d9c84deffe25bb76ac46accc540bea1162d565f1c5401a387ecf9a3351cd9e8f
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
+  scroll_bars_common:
+    dependency: transitive
+    description:
+      name: scroll_bars_common
+      sha256: "9a46b430ca602b4fb6c15c6f021d85fd00e561b0b698f11cb13c9e032ee9d93e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
