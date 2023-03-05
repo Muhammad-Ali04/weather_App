@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:intl/intl.dart';
 import 'package:scaffold_gradient_background/scaffold_gradient_background.dart';
 import 'package:weather_app/consts/images.dart';
 import 'package:weather_app/consts/string.dart';
+import 'package:weather_app/controllers/home_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -22,30 +25,39 @@ class _HomeScreenState extends State<HomeScreen> {
 
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
+    var theme = Theme.of(context);
+    var controller = Get.put(HomeController());
     return Scaffold(
-      backgroundColor: Vx.blue100,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Vx.blue100,
+        backgroundColor: theme.appBarTheme.backgroundColor,
         title: "$date"
             .text
-            .color(Vx.black)
+            .color(theme.primaryColor)
             .fontFamily("poppins")
             .fontWeight(FontWeight.w400)
             .make(),
         elevation: 0,
         actions: [
-          IconButton(
-              splashColor: Colors.white10,
-              onPressed: () {},
-              icon: Icon(
-                Icons.light_mode_rounded,
-                color: Vx.yellow600,
-              )),
+          Obx(
+            () => IconButton(
+                splashColor: Colors.white10,
+                onPressed: () {
+                  controller.chnageTheme();
+                },
+                icon: Icon(
+                    controller.isdark.value
+                        ? Icons.light_mode_rounded
+                        : Icons.dark_mode_rounded,
+                    color: controller.isdark.value
+                        ? Vx.yellow200
+                        : theme.iconTheme.color)),
+          ),
           IconButton(
               onPressed: () {},
               icon: Icon(
                 Icons.more_vert_rounded,
-                color: Vx.black,
+                color: theme.iconTheme.color,
               ))
         ],
       ),
@@ -68,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       .text
                       .fontFamily("poppins")
                       .fontWeight(FontWeight.bold)
-                      .color(Vx.black)
+                      .color(theme.primaryColor)
                       .size(22)
                       .make()
                       .box
@@ -95,14 +107,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         TextSpan(
                             text: "37°",
                             style: TextStyle(
-                                color: Vx.black,
+                                color: theme.primaryColor,
                                 fontFamily: "poppins",
                                 fontSize: 40,
                                 letterSpacing: 2)),
                         TextSpan(
                             text: "Hot",
                             style: TextStyle(
-                                color: Vx.black,
+                                color: theme.primaryColor,
                                 fontFamily: "poppins",
                                 fontSize: 16,
                                 letterSpacing: 3))
@@ -117,7 +129,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Container(
                       margin: EdgeInsets.only(top: height * 0.03),
-                      child: "12°c".text.fontFamily("poppins").make()),
+                      child: "12°c"
+                          .text
+                          .fontFamily("poppins")
+                          .color(theme.primaryColor)
+                          .make()),
                   Container(
                     child: Image.asset(
                       "assets/images/low_temp.png",
@@ -128,7 +144,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   WidthBox(width * 0.035),
                   Container(
                       margin: EdgeInsets.only(top: height * 0.03),
-                      child: "42°c".text.fontFamily("poppins").make()),
+                      child: "42°c"
+                          .text
+                          .fontFamily("poppins")
+                          .color(theme.primaryColor)
+                          .make()),
                   Container(
                     child: Image.asset(
                       "assets/images/hot_temp.png",
@@ -152,6 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       "${values[index]}"
                           .text
                           .fontFamily("poppins")
+                          .color(theme.primaryColor)
                           .fontWeight(FontWeight.bold)
                           .make()
                     ],
@@ -159,7 +180,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 }),
               ),
               HeightBox(height * 0.02),
-              Divider(),
+              Divider(
+                color: theme.dividerColor,
+              ),
               HeightBox(height * 0.02),
               SizedBox(
                 height: height * 0.15,
@@ -173,13 +196,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: EdgeInsets.all(width * 0.02),
                         margin: EdgeInsets.only(right: width * 0.02),
                         decoration: BoxDecoration(
-                            color: Vx.blue200,
+                            color: controller.isdark.value
+                                ? Vx.gray700
+                                : Vx.blue200,
                             borderRadius: BorderRadius.circular(12)),
                         child: Column(
                           children: [
                             "${index + 1}\tAm"
                                 .text
                                 .fontFamily("poppins")
+                                .color(theme.primaryColor)
                                 .fontWeight(FontWeight.bold)
                                 .make(),
                             HeightBox(height * 0.01),
@@ -192,6 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             "20${string}c"
                                 .text
                                 .fontFamily("poppins")
+                                .color(theme.primaryColor)
                                 .fontWeight(FontWeight.bold)
                                 .make(),
                           ],
@@ -200,7 +227,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     }),
               ),
               HeightBox(height * 0.02),
-              Divider(),
+              Divider(
+                color: theme.dividerColor,
+              ),
               HeightBox(height * 0.02),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -208,6 +237,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   "Next Days"
                       .text
                       .fontFamily("poppins")
+                      .color(theme.primaryColor)
                       .semiBold
                       .size(16)
                       .make(),
@@ -220,7 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     var day = DateFormat("EEEE")
                         .format(DateTime.now().add(Duration(days: index + 1)));
                     return Card(
-                      color: Vx.blue200,
+                      color: theme.cardColor,
                       shadowColor: Vx.gray700,
                       elevation: 1,
                       child: Container(
@@ -229,7 +259,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(child: "$day".text.semiBold.make()),
+                            Expanded(
+                                child: "$day"
+                                    .text
+                                    .color(theme.primaryColor)
+                                    .semiBold
+                                    .make()),
                             Expanded(
                               child: Image.asset(
                                 "assets/images/clouds.png",
@@ -239,6 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             "20${string}c"
                                 .text
                                 .fontFamily("poppins")
+                                .color(theme.primaryColor)
                                 .fontWeight(FontWeight.bold)
                                 .make(),
                             WidthBox(width * 0.08),
